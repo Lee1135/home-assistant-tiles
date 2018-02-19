@@ -41,11 +41,12 @@ homeassistant:
         entities:
           - entity: script.test
             label: S1                # optional
-            label_state: input_boolean.switch2  # optional
+            label_state: input_boolean.switch2      # optional
             label_template: "if (state < 10) return '<10'; else return '>=10';"  # optional
             label_sec: (S1)          # optional
             label_sec_state: input_boolean.switch2  # optional
             label_sec_template: "if (state < 10) return '<10'; else return '>=10';"  # optional
+            more_info: histroy_grah.temperature     # optional
             icon: mdi:power          # optional
             image: /local/test.png   # optional
             data: {value: right}     # optional
