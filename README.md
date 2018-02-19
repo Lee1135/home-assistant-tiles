@@ -33,10 +33,19 @@ homeassistant:
         text_color: '#FFF'      # optional
         text_color_on: '#FFF'   # optional
         text_color_off: '#FFF'  # optional
+        text_size: 1em          # optional
+        text_sec_color: '#FFF'  # optional
+        text_sec_size: 1em      # optional
+        text_align: center      # optional
+        icon_size: 24px         # optional
         entities:
           - entity: script.test
             label: S1                # optional
             label_state: input_boolean.switch2  # optional
+            label_template: "if (state < 10) return '<10'; else return '>=10';"  # optional
+            label_sec: (S1)          # optional
+            label_sec_state: input_boolean.switch2  # optional
+            label_sec_template: "if (state < 10) return '<10'; else return '>=10';"  # optional
             icon: mdi:power          # optional
             image: /local/test.png   # optional
             data: {value: right}     # optional
@@ -50,9 +59,14 @@ homeassistant:
             text_color: '#FFF'       # optional
             text_color_on: '#FFF'    # optional
             text_color_off: '#FFF'   # optional
+            text_size: 1em           # optional
+            text_sec_color: '#FFF'   # optional
+            text_sec_size: 1em       # optional
+            text_align: center       # optional
+            icon_size: 24px          # optional
  ```
  
- Also check the sample configuration.
+Also check the sample configuration.
 
 ## Run as panel
 ```yaml
@@ -68,6 +82,14 @@ panel_custom:
 ```
 
 ## Changelog
+Version: 20180219
+```
+-added support for sensor domain: label = state, tap shows more-info-card
+-added more_info to define another entity's card when using sensor domain
+-label_template: JS function with sate, attributes[] and entities[] as parameters
+-added label_sec, label_sec_state, label_sec_template: shows a 2nd label
+-added text_size, text_sec_color, text_sec_size, text_align, icon_size (global + per entity)
+```
 Version 20180209.1
 ```
 -changed minimum button size to 50px x 50 px
