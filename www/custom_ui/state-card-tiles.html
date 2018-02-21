@@ -1,6 +1,6 @@
 <!--
 https://github.com/c727/home-assistant-tiles
-version: 20180219
+version: 20180221
 -->
 <dom-module id='state-card-tiles'>
   <template>
@@ -64,10 +64,13 @@ version: 20180219
     </style>
     <paper-button-group on-tap='stopPropagation'>
       <template is='dom-repeat' items='[[stateObj.attributes.config.entities]]' as='entity'>
-        <paper-button raised class$='[[computeClass(hass, entity)]]' style$='[[computeStyle(entity)]]' on-tap='buttonTapped'>
+        <paper-button raised class$='[[computeClass(hass, entity)]]' style$='[[computeStyle(entity)]][[computeStyleTemplate(hass, entity)]]' on-tap='buttonTapped'>
           <div>
             <template is='dom-if' if='[[entity.icon]]'>
               <iron-icon icon='[[entity.icon]]'></iron-icon>
+            </template>
+            <template is='dom-if' if='[[entity.icon_template]]'>
+              <iron-icon icon='[[computeFromTemplate(hass, entity, "icon_template")]]'></iron-icon>
             </template>
             [[computeLabel(hass, entity)]]
           </div>
@@ -115,12 +118,16 @@ class StateCardTiles extends window.hassMixins.EventsMixin(Polymer.Element) {
     this.updateStyles(style);
   }
 
+  computeFromTemplate(hass, entity, template) {
+    const state = hass.states[entity.entity].state;
+    const attributes = hass.states[entity.entity].attributes;
+    const entities = hass.states;
+    return Function('state', 'attributes', 'entities', entity[template])(state, attributes, entities);
+  }
+
   computeLabel(hass, entity) {
     if (entity.label_template) {
-      const state = hass.states[entity.entity].state;
-      const attributes = hass.states[entity.entity].attributes;
-      const entities = hass.states;
-      return Function('state', 'attributes', 'entities', entity.label_template)(state, attributes, entities);
+      return this.computeFromTemplate(hass, entity, 'label_template');
     } else if (entity.label_state) {
       const stateObj = hass.states[entity.label_state];
       return stateObj.attributes && stateObj.attributes.unit_of_measurement ? `${stateObj.state} ${stateObj.attributes.unit_of_measurement}` : stateObj.state;
@@ -142,7 +149,8 @@ class StateCardTiles extends window.hassMixins.EventsMixin(Polymer.Element) {
     return this.computeLabel(hass, {
       label_template: entity.label_sec_template,
       label_state: entity.label_sec_state,
-      label: entity.label_sec });
+      label: entity.label_sec,
+      entity: entity.entity });
   }
 
   computeClass(hass, entity) {
@@ -172,7 +180,11 @@ class StateCardTiles extends window.hassMixins.EventsMixin(Polymer.Element) {
     if (entity.text_align) style += ` --tiles-text-align: ${entity.text_align};`;
     if (entity.icon_size) style += ` --tiles-icon-size: ${entity.icon_size};`;
     if (entity.image) style += ` background-image: url("${entity.image}");`;
-    return 'grid-column: ' + c + ' / span ' + cs + '; grid-row: ' + r + ' / span ' + rs + ';' +  style;
+    return `grid-column: ${c} / span ${cs}; grid-row: ${r} / span ${rs}; ${style}`;
+  }
+
+  computeStyleTemplate(hass, entity) {
+    return entity.style_template ? this.computeFromTemplate(hass, entity, 'style_template') : '';
   }
 
   buttonTapped(ev) {

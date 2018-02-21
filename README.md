@@ -17,54 +17,57 @@ frontend:
 ```
 
 ## Configuration
+All customization keys are optional.
 ```yaml
 homeassistant:
   customize:
     input_text.dummy_tiles:
       custom_ui_state_card: state-card-tiles
       config:
-        columns: 3              # optional
-        column_width: 75px      # optional
-        row_height: 75px        # optional
-        gap: 4px                # optional
-        color: blue             # optional
-        color_on: green         # optional
-        color_off: red          # optional
-        text_color: '#FFF'      # optional
-        text_color_on: '#FFF'   # optional
-        text_color_off: '#FFF'  # optional
-        text_size: 1em          # optional
-        text_sec_color: '#FFF'  # optional
-        text_sec_size: 1em      # optional
-        text_align: center      # optional
-        icon_size: 24px         # optional
+        columns: 3
+        column_width: 75px
+        row_height: 75px
+        gap: 4px
+        color: blue
+        color_on: green
+        color_off: red
+        text_color: "#FFF"
+        text_color_on: "#FFF"
+        text_color_off: "#FFF"
+        text_size: 1em
+        text_sec_color: "#FFF"
+        text_sec_size: 1em
+        text_align: center
+        icon_size: 24px
         entities:
-          - entity: script.test
-            label: S1                # optional
-            label_state: input_boolean.switch2      # optional
-            label_template: "if (state < 10) return '<10'; else return '>=10';"  # optional
-            label_sec: (S1)          # optional
-            label_sec_state: input_boolean.switch2  # optional
-            label_sec_template: "if (state < 10) return '<10'; else return '>=10';"  # optional
-            more_info: histroy_grah.temperature     # optional
-            icon: mdi:power          # optional
-            image: /local/test.png   # optional
-            data: {value: right}     # optional
-            column: 2                # optional
-            column_span: 2           # optional
-            row: 2                   # optional
-            row_span: 2              # optional
-            color: blue              # optional
-            color_on: green          # optional
-            color_off: red           # optional
-            text_color: '#FFF'       # optional
-            text_color_on: '#FFF'    # optional
-            text_color_off: '#FFF'   # optional
-            text_size: 1em           # optional
-            text_sec_color: '#FFF'   # optional
-            text_sec_size: 1em       # optional
-            text_align: center       # optional
-            icon_size: 24px          # optional
+          - entity: script.test # required
+            label: S1
+            label_state: input_boolean.switch2   
+            label_template: "if (state < 10) return '<10'; else return '>=10';"
+            label_sec: (S1)
+            label_sec_state: input_boolean.switch2
+            label_sec_template: "if (state < 10) return '<10'; else return '>=10';"
+            more_info: histroy_grah.temperature  
+            icon: mdi:power
+            icon_template: "if (state === 'on') return 'mdi:volume-high'; else return 'mdi:volume-low'"
+            style_template: "if (state === 'on') return 'background-image: url(\"local/on.png\");'; else return 'background-image: url(\"local/off.png\");'"
+            image: /local/test.png
+            data: {value: right}  
+            column: 2
+            column_span: 2
+            row: 2
+            row_span: 2
+            color: blue
+            color_on: green
+            color_off: red
+            text_color: "#FFF"
+            text_color_on: "#FFF"
+            text_color_off: "#FFF"
+            text_size: 1em
+            text_sec_color: "#FFF"
+            text_sec_size: 1em
+            text_align: center
+            icon_size: 24px
  ```
  
 Also check the sample configuration.
@@ -83,6 +86,11 @@ panel_custom:
 ```
 
 ## Changelog
+Version: 20180221
+```
+-added icon_template and style_template
+-fixed label_sec_template
+```
 Version: 20180219
 ```
 -added support for sensor domain: label = state, tap shows more-info-card
@@ -97,7 +105,7 @@ Version 20180209.1
 ```
 Version 20180209:
 ```
--added support for "all" domains
+-added support for more domains
 ```
 Version 20180204:
 ```
