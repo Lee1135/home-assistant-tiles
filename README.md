@@ -37,20 +37,20 @@ homeassistant:
         text_size: 1em
         text_sec_color: "#FFF"
         text_sec_size: 1em
-        text_align: center
+        text_align: center | left | right
         icon_size: 24px
         entities:
           - entity: script.test # required
             label: S1
             label_state: input_boolean.switch2   
-            label_template: "if (state < 10) return '<10'; else return '>=10';"
+            label_template: "if (state < 10) return '<10'; else return '>=10';" # JavaScript
             label_sec: (S1)
             label_sec_state: input_boolean.switch2
-            label_sec_template: "if (state < 10) return '<10'; else return '>=10';"
+            label_sec_template: "if (state < 10) return '<10'; else return '>=10';" # JavaScript
             more_info: histroy_grah.temperature  
             icon: mdi:power
-            icon_template: "if (state === 'on') return 'mdi:volume-high'; else return 'mdi:volume-low'"
-            style_template: "if (state === 'on') return 'background-image: url(\"local/on.png\");'; else return 'background-image: url(\"local/off.png\");'"
+            icon_template: "if (state === 'on') return 'mdi:volume-high'; else return 'mdi:volume-low'" # JavaScript
+            style_template: "if (state === 'on') return 'background-image: url(\"local/on.png\");'; else return 'background-image: url(\"local/off.png\");'" # JavaScript
             image: /local/test.png
             data: {value: right}  
             column: 2
