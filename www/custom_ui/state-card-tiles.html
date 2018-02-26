@@ -1,6 +1,6 @@
 <!--
 https://github.com/c727/home-assistant-tiles
-version: 20180226
+version: 20180226.1
 -->
 <dom-module id='state-card-tiles'>
   <template>
@@ -86,7 +86,7 @@ version: 20180226
 <script>
 const DOMAIN_SCRIPT = ['script', 'python_script'];
 const DOMAIN_SENSOR = ['sensor', 'binary_sensor'];
-const DOMAIN_NO_TOGGLE = DOMAIN_SCRIPT.concat(DOMAIN_SENSOR);
+const DOMAIN_NO_TOGGLE = DOMAIN_SCRIPT.concat(DOMAIN_SENSOR, 'scene');
 
 class StateCardTiles extends window.hassMixins.EventsMixin(Polymer.Element) {
   static get is() { return 'state-card-tiles'; }

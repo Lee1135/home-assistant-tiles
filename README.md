@@ -86,6 +86,10 @@ panel_custom:
 ```
 
 ## Changelog
+Version: 20180226.1
+```
+-added scene to statelesse domains
+```
 Version: 20180226
 ```
 -added binary_sensor and scene support

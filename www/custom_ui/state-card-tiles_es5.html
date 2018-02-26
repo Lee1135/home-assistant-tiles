@@ -1,6 +1,6 @@
 <!--
 https://github.com/c727/home-assistant-tiles
-version: 20180226
+version: 20180226.1
 -->
 <dom-module id='state-card-tiles'>
   <template>
@@ -86,7 +86,7 @@ version: 20180226
 <script>
 var DOMAIN_SCRIPT = ['script', 'python_script'];
 var DOMAIN_SENSOR = ['sensor', 'binary_sensor'];
-var DOMAIN_NO_TOGGLE = DOMAIN_SCRIPT.concat(DOMAIN_SENSOR);
+var DOMAIN_NO_TOGGLE = DOMAIN_SCRIPT.concat(DOMAIN_SENSOR, 'scene');
 
 Polymer({
   is: 'state-card-tiles',
