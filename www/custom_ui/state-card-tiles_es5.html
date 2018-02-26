@@ -1,6 +1,6 @@
 <!--
 https://github.com/c727/home-assistant-tiles
-version: 20180221
+version: 20180226
 -->
 <dom-module id='state-card-tiles'>
   <template>
@@ -62,7 +62,7 @@ version: 20180221
         --iron-icon-width: var(--tiles-icon-size);
       }
     </style>
-    <paper-button-group on-tap='stopPropagation'>
+    <paper-button-group on-click='stopPropagation'>
       <template is='dom-repeat' items='[[stateObj.attributes.config.entities]]' as='entity'>
         <paper-button raised class$='[[computeClass(hass, entity)]]' style$='[[computeStyle(entity)]][[computeStyleTemplate(hass, entity)]]' on-tap='buttonTapped'>
           <div>
@@ -84,8 +84,9 @@ version: 20180221
 </dom-module>
 
 <script>
-const DOMAIN_SCRIPT = ['script', 'python_script'];
-const DOMAIN_NO_TOGGLE = DOMAIN_SCRIPT.concat('sensor');
+var DOMAIN_SCRIPT = ['script', 'python_script'];
+var DOMAIN_SENSOR = ['sensor', 'binary_sensor'];
+var DOMAIN_NO_TOGGLE = DOMAIN_SCRIPT.concat(DOMAIN_SENSOR);
 
 Polymer({
   is: 'state-card-tiles',
@@ -134,7 +135,7 @@ Polymer({
       return stateObj.attributes && stateObj.attributes.unit_of_measurement ? stateObj.state + ' ' + stateObj.attributes.unit_of_measurement : stateObj.state;
     } else if (entity.label) {
       return entity.label;
-    } else if (entity.entity.split('.')[0] === 'sensor') {
+    } else if (DOMAIN_SENSOR.includes(entity.entity.split('.')[0])) {
       var stateObj = hass.states[entity.entity];
       return stateObj.attributes && stateObj.attributes.unit_of_measurement ? stateObj.state + ' ' + stateObj.attributes.unit_of_measurement : stateObj.state;
     } else {
@@ -190,10 +191,11 @@ Polymer({
 
   buttonTapped: function (ev) {
     var entity = ev.model.entity.entity;
+    var more_info = ev.model.entity.more_info;
     var stateDomain = entity.split('.')[0];
 
-    if (stateDomain === 'sensor') {
-      this.fire('hass-more-info', { entityId: ev.model.entity.more_info || entity });
+    if (DOMAIN_SENSOR.includes(stateDomain) || more_info) {
+      this.fire('hass-more-info', { entityId: more_info || entity });
     } else {
       var serviceDomain;
       var service;
@@ -209,10 +211,14 @@ Polymer({
             serviceDomain = 'lock';
             service = isOff ? 'lock' : 'unlock';
             break;
-          case 'cover':
+            case 'cover':
             serviceDomain = 'cover';
             service = isOff ? 'open' : 'close';
             break;
+          case 'scene':
+            serviceDomain = 'scene';
+            service = 'turn_on';
+            break;        
           default:
             serviceDomain = 'homeassistant';
             service = isOff ? 'turn_on' : 'turn_off';

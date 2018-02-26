@@ -86,6 +86,11 @@ panel_custom:
 ```
 
 ## Changelog
+Version: 20180226
+```
+-added binary_sensor and scene support
+-every domain can use more_info now
+```
 Version: 20180221
 ```
 -added icon_template and style_template

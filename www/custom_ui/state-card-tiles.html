@@ -1,6 +1,6 @@
 <!--
 https://github.com/c727/home-assistant-tiles
-version: 20180221
+version: 20180226
 -->
 <dom-module id='state-card-tiles'>
   <template>
@@ -62,7 +62,7 @@ version: 20180221
         --iron-icon-width: var(--tiles-icon-size);
       }
     </style>
-    <paper-button-group on-tap='stopPropagation'>
+    <paper-button-group on-click='stopPropagation'>
       <template is='dom-repeat' items='[[stateObj.attributes.config.entities]]' as='entity'>
         <paper-button raised class$='[[computeClass(hass, entity)]]' style$='[[computeStyle(entity)]][[computeStyleTemplate(hass, entity)]]' on-tap='buttonTapped'>
           <div>
@@ -85,7 +85,8 @@ version: 20180221
 
 <script>
 const DOMAIN_SCRIPT = ['script', 'python_script'];
-const DOMAIN_NO_TOGGLE = DOMAIN_SCRIPT.concat('sensor');
+const DOMAIN_SENSOR = ['sensor', 'binary_sensor'];
+const DOMAIN_NO_TOGGLE = DOMAIN_SCRIPT.concat(DOMAIN_SENSOR);
 
 class StateCardTiles extends window.hassMixins.EventsMixin(Polymer.Element) {
   static get is() { return 'state-card-tiles'; }
@@ -133,7 +134,7 @@ class StateCardTiles extends window.hassMixins.EventsMixin(Polymer.Element) {
       return stateObj.attributes && stateObj.attributes.unit_of_measurement ? `${stateObj.state} ${stateObj.attributes.unit_of_measurement}` : stateObj.state;
     } else if (entity.label) {
       return entity.label;
-    } else if (entity.entity.split('.')[0] === 'sensor') {
+    } else if (DOMAIN_SENSOR.includes(entity.entity.split('.')[0])) {
       const stateObj = hass.states[entity.entity];
       return stateObj.attributes && stateObj.attributes.unit_of_measurement ? `${stateObj.state} ${stateObj.attributes.unit_of_measurement}` : stateObj.state;
     } else {
@@ -189,10 +190,11 @@ class StateCardTiles extends window.hassMixins.EventsMixin(Polymer.Element) {
 
   buttonTapped(ev) {
     const entity = ev.model.entity.entity;
+    const more_info = ev.model.entity.more_info;
     const stateDomain = entity.split('.')[0];
 
-    if (stateDomain === 'sensor') {
-      this.fire('hass-more-info', { entityId: ev.model.entity.more_info || entity });
+    if (DOMAIN_SENSOR.includes(stateDomain) || more_info) {
+      this.fire('hass-more-info', { entityId: more_info || entity });
     } else {
       let serviceDomain;
       let service;
@@ -208,9 +210,13 @@ class StateCardTiles extends window.hassMixins.EventsMixin(Polymer.Element) {
             serviceDomain = 'lock';
             service = isOff ? 'lock' : 'unlock';
             break;
-          case 'cover':
+            case 'cover':
             serviceDomain = 'cover';
             service = isOff ? 'open' : 'close';
+            break;
+          case 'scene':
+            serviceDomain = 'scene';
+            service = 'turn_on';
             break;        
           default:
             serviceDomain = 'homeassistant';
