@@ -88,7 +88,7 @@ panel_custom:
 ## Changelog
 Version: 20180226.1
 ```
--added scene to statelesse domains
+-added scene to stateless domains
 ```
 Version: 20180226
 ```
