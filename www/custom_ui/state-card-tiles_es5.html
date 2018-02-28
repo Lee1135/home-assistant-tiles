@@ -1,6 +1,6 @@
 <!--
 https://github.com/c727/home-assistant-tiles
-version: 20180226.1
+version: 20180228
 -->
 <dom-module id='state-card-tiles'>
   <template>
@@ -64,7 +64,7 @@ version: 20180226.1
     </style>
     <paper-button-group on-click='stopPropagation'>
       <template is='dom-repeat' items='[[stateObj.attributes.config.entities]]' as='entity'>
-        <paper-button raised class$='[[computeClass(hass, entity)]]' style$='[[computeStyle(entity)]][[computeStyleTemplate(hass, entity)]]' on-tap='buttonTapped'>
+        <paper-button raised class$='[[computeClass(hass, entity)]]' style$='[[computeStyle(entity)]][[computeStyleTemplate(hass, entity)]]' on-click='buttonClicked'>
           <div>
             <template is='dom-if' if='[[entity.icon]]'>
               <iron-icon icon='[[entity.icon]]'></iron-icon>
@@ -189,7 +189,7 @@ Polymer({
     return entity.style_template ? this.computeFromTemplate(hass, entity, 'style_template') : '';
   },
 
-  buttonTapped: function (ev) {
+  buttonClicked: function (ev) {
     var entity = ev.model.entity.entity;
     var more_info = ev.model.entity.more_info;
     var stateDomain = entity.split('.')[0];
@@ -211,7 +211,7 @@ Polymer({
             serviceDomain = 'lock';
             service = isOff ? 'lock' : 'unlock';
             break;
-            case 'cover':
+          case 'cover':
             serviceDomain = 'cover';
             service = isOff ? 'open' : 'close';
             break;
