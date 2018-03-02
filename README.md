@@ -90,7 +90,7 @@ panel_custom:
 ## Using templates
 `state` state of the entity
 
-`attributes['brightness']` an attribute of the entity
+`attributes['brightness']` attribute of the entity
 
 `entities['input_boolean.switch1'].state` state of another entity
 
