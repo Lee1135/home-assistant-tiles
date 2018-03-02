@@ -56,7 +56,7 @@ homeassistant:
             row: 2
             row_span: 2
             image: /local/test.png
-            style_template: "if (state === 'on') return 'background-image: url(\"/local/on.png\");'; else return 'background-image: url(\"/local/off.png\");'" # JavaScript
+            style_template: "if (state === 'on') return 'background-image: url(\"/local/on.png\");'; else return 'background-image: url(\"/local/off.png\");'" # JavaScript, return CSS here
             color: blue
             color_on: green
             color_off: red
