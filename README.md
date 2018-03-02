@@ -40,23 +40,23 @@ homeassistant:
         text_align: center | left | right
         icon_size: 24px
         entities:
-          - entity: script.test # required
+          - entity: input_boolean.switch1 # required
+            data: {value: right} # service data for scripts
+            more_info: histroy_grah.temperature # fire more-info instead of service, default for sensors
+            icon: mdi:power
+            icon_template: "if (state === 'on') return 'mdi:volume-high'; else return 'mdi:volume-low'" # JavaScript
             label: S1
             label_state: input_boolean.switch2   
             label_template: "if (state < 10) return '<10'; else return '>=10';" # JavaScript
-            label_sec: (S1)
+            label_sec: (Switch 1)
             label_sec_state: input_boolean.switch2
             label_sec_template: "if (state < 10) return '<10'; else return '>=10';" # JavaScript
-            more_info: histroy_grah.temperature  
-            icon: mdi:power
-            icon_template: "if (state === 'on') return 'mdi:volume-high'; else return 'mdi:volume-low'" # JavaScript
-            style_template: "if (state === 'on') return 'background-image: url(\"local/on.png\");'; else return 'background-image: url(\"local/off.png\");'" # JavaScript
-            image: /local/test.png
-            data: {value: right}  
             column: 2
             column_span: 2
             row: 2
             row_span: 2
+            image: /local/test.png
+            style_template: "if (state === 'on') return 'background-image: url(\"/local/on.png\");'; else return 'background-image: url(\"/local/off.png\");'" # JavaScript
             color: blue
             color_on: green
             color_off: red
@@ -73,6 +73,8 @@ homeassistant:
 Also check the sample configuration.
 
 ## Run as panel
+* Download `/panels/tiles.html` to `<config-dir>/panels/tiles.html`
+* Add it to your `configuration.yaml`:
 ```yaml
 panel_custom:
   - name: tiles
@@ -84,6 +86,15 @@ panel_custom:
         - entity: input_boolean.switch1
           label: Switch 1
 ```
+
+## Using templates
+`state` state of the entity
+
+`attributes['brightness']` an attribute of the entity
+
+`entities['input_boolean.switch1'].state` state of another entity
+
+`entities['light.floor1'].attributes.brightness` attribute of another entity
 
 ## Changelog
 Version: 20180228
