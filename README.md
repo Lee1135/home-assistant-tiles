@@ -72,6 +72,25 @@ homeassistant:
  
 Also check the sample configuration.
 
+## Update info
+```yaml
+sensor:
+  - platform: rest
+    name: SC Tiles latest version
+    resource: https://raw.githubusercontent.com/c727/home-assistant-tiles/master/LATEST_VERSION
+
+automation:
+  - alias: SC Tiles update info
+    trigger:
+      platform: state
+      entity_id: sensor.sc_tiles_latest_version
+    action:
+      service: persistent_notification.create
+      data:
+        title: Update available
+        message: A new version for [Tiles custom state card](https://github.com/c727/home-assistant-tiles#changelog) is available.
+```
+
 ## Run as panel
 * Also download `/panels/tiles.html` to `<config-dir>/panels/tiles.html`
 * Add it to your `configuration.yaml`:
