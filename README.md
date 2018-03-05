@@ -73,7 +73,7 @@ homeassistant:
 Also check the sample configuration.
 
 ## Run as panel
-* Download `/panels/tiles.html` to `<config-dir>/panels/tiles.html`
+* Also download `/panels/tiles.html` to `<config-dir>/panels/tiles.html`
 * Add it to your `configuration.yaml`:
 ```yaml
 panel_custom:
