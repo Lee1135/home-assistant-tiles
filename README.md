@@ -116,6 +116,10 @@ panel_custom:
 `entities['light.floor1'].attributes.brightness` attribute of another entity
 
 ## Changelog
+Version: 20180308
+```
+-fix dialog for old HA releases
+```
 Version: 20180228
 ```
 -fixed on-click

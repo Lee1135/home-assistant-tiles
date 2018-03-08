@@ -1,6 +1,6 @@
 <!--
 https://github.com/c727/home-assistant-tiles
-version: 20180228
+version: 20180308
 -->
 <dom-module id='state-card-tiles'>
   <template>
@@ -62,7 +62,7 @@ version: 20180228
         --iron-icon-width: var(--tiles-icon-size);
       }
     </style>
-    <paper-button-group on-click='stopPropagation'>
+    <paper-button-group on-click='stopPropagation' on-tap='stopPropagation'>
       <template is='dom-repeat' items='[[stateObj.attributes.config.entities]]' as='entity'>
         <paper-button raised class$='[[computeClass(hass, entity)]]' style$='[[computeStyle(entity)]][[computeStyleTemplate(hass, entity)]]' on-click='buttonClicked'>
           <div>
