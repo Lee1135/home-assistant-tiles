@@ -1,6 +1,6 @@
 <!--
 https://github.com/c727/home-assistant-tiles
-version: 20180308
+version: 20180309
 -->
 <dom-module id='ha-panel-tiles'>
   <template>
@@ -16,40 +16,55 @@ version: 20180308
         --panel-multi-header-color: #fafbfc;
         --panel-multi-header-size: 2em;
 
+        display: block;
         background-color: var(--panel-bg-color);
-        padding: 8px;
         height: 100%;
-
+        padding: 8px;
+      }
+      .grid {
         display: grid;
+        height: 100%;
         grid-template-columns: repeat(var(--panel-multi-columns), var(--panel-multi-column-width));
         grid-template-rows: repeat(var(--panel-multi-rows), var(--panel-multi-row-height));
         grid-gap: var(--panel-multi-gap);
         
+      }
+      .title {
+        color: var(--panel-multi-header-color);
+        font-size: var(--app-toolbar-font-size, 20px);
       }
       .header {
         color: var(--panel-multi-header-color);
         font-size: var(--panel-multi-header-size);
       }
     </style>
-    <template is='dom-if' if='[[!panel.config.multi]]'>
-      <state-card-tiles
-        hass='[[hass]]'  
-        state-obj='[[computeDataTiles(panel.config)]]'
-      ></state-card-tiles>
-    </template>
-    <template is='dom-if' if='[[panel.config.multi]]'>
-      <template is='dom-repeat' items='[[panel.config.multi]]'>
-        <div style$='[[computeStyle(item)]]'>
-          <template is='dom-if' if='[[item.header]]'>
-            <div class='header'>[[item.header]]</div>
-          </template>
-          <state-card-tiles
-            hass='[[hass]]'
-            state-obj='[[computeDataTiles(item.tiles)]]'
-          ></state-card-tiles>
-        </div>
+    <div class='title'>
+      <ha-menu-button narrow='[[narrow]]' show-menu='[[showMenu]]'></ha-menu-button>    
+      <template is='dom-if' if='[[panel.config.title]]'>
+        [[panel.config.title]]
       </template>
-    </template>
+    </div>
+    <div class='grid'>
+      <template is='dom-if' if='[[!panel.config.multi]]'>
+        <state-card-tiles
+          hass='[[hass]]'  
+          state-obj='[[computeDataTiles(panel.config)]]'
+        ></state-card-tiles>
+      </template>
+      <template is='dom-if' if='[[panel.config.multi]]'>
+        <template is='dom-repeat' items='[[panel.config.multi]]'>
+          <div style$='[[computeStyle(item)]]'>
+            <template is='dom-if' if='[[item.header]]'>
+              <div class='header'>[[item.header]]</div>
+            </template>
+            <state-card-tiles
+              hass='[[hass]]'
+              state-obj='[[computeDataTiles(item.tiles)]]'
+            ></state-card-tiles>
+          </div>
+        </template>
+      </template>
+    </div>
   </template>
 </dom-module>
   
@@ -62,6 +77,14 @@ version: 20180308
       },
       panel: {
         type: Object,
+      },
+      narrow: {
+        type: Boolean,
+        value: false,
+      },
+      showMenu: {
+        type: Boolean,
+        value: false,
       },
     },
 

@@ -187,6 +187,7 @@ panel_custom:
     url_path: tiles_multi
     config:
       bg_color: "#24292e"  # optional
+      title: Tiles as your dashboard  #optional
       columns: 2           # optional
       column_width: 1fr    # optional
       rows: 2              # optional
