@@ -1,18 +1,55 @@
+<!--
+https://github.com/c727/home-assistant-tiles
+version: 20180308
+-->
 <dom-module id='ha-panel-tiles'>
   <template>
     <style>
       :host {
-        background-color: black;
-        display: block;
-        width: 100%;
-        height: 100%;
+        --panel-bg-color: #24292e;
+
+        --panel-multi-columns: 1;
+        --panel-multi-column-width: 1fr;
+        --panel-multi-rows: 1;
+        --panel-multi-row-height: 1fr;
+        --panel-multi-gap: 4px;
+        --panel-multi-header-color: #fafbfc;
+        --panel-multi-header-size: 2em;
+
+        background-color: var(--panel-bg-color);
         padding: 8px;
+        height: 100%;
+
+        display: grid;
+        grid-template-columns: repeat(var(--panel-multi-columns), var(--panel-multi-column-width));
+        grid-template-rows: repeat(var(--panel-multi-rows), var(--panel-multi-row-height));
+        grid-gap: var(--panel-multi-gap);
+        
+      }
+      .header {
+        color: var(--panel-multi-header-color);
+        font-size: var(--panel-multi-header-size);
       }
     </style>
-    <state-card-tiles
-      hass='[[hass]]'  
-      state-obj='[[computeDataTiles(panel)]]'
-    ></state-card-tiles>
+    <template is='dom-if' if='[[!panel.config.multi]]'>
+      <state-card-tiles
+        hass='[[hass]]'  
+        state-obj='[[computeDataTiles(panel.config)]]'
+      ></state-card-tiles>
+    </template>
+    <template is='dom-if' if='[[panel.config.multi]]'>
+      <template is='dom-repeat' items='[[panel.config.multi]]'>
+        <div style$='[[computeStyle(item)]]'>
+          <template is='dom-if' if='[[item.header]]'>
+            <div class='header'>[[item.header]]</div>
+          </template>
+          <state-card-tiles
+            hass='[[hass]]'
+            state-obj='[[computeDataTiles(item.tiles)]]'
+          ></state-card-tiles>
+        </div>
+      </template>
+    </template>
   </template>
 </dom-module>
   
@@ -25,11 +62,33 @@
       },
       panel: {
         type: Object,
-      }
+      },
     },
 
-    computeDataTiles: function(panel) {
-      return panel && panel.config ? { attributes: { config: panel.config } } : {};
+    ready: function () {
+      var config = this.panel.config;
+      var style = {};
+      if (config.bg_color) style['--panel-bg-color'] = config.bg_color;
+      if (config.columns) style['--panel-multi-columns'] = config.columns;
+      if (config.column_width) style['--panel-multi-column-width'] = config.column_width;
+      if (config.rows) style['--panel-multi-rows'] = config.rows;
+      if (config.row_height) style['--panel-multi-row-height'] = config.row_height;
+      if (config.gap) style['--panel-multi-gap'] = config.gap;
+      if (config.header_color) style['--panel-multi-header-color'] = config.header_color;
+      if (config.header_size) style['--panel-multi-header-size'] = config.header_size;
+      this.updateStyles(style);
+    },    
+
+    computeStyle: function (entity) {
+      var c = entity.column ? entity.column : 'auto';
+      var cs = entity.column_span ? entity.column_span : 1;
+      var r = entity.row ? entity.row : 'auto';
+      var rs = entity.row_span ? entity.row_span : 1;
+      return 'grid-column: ' + c + ' / span ' + cs + '; grid-row: ' + r + ' / span ' + rs + ';';
+    },
+
+    computeDataTiles: function(data) {
+      return { attributes: { config: data } };
     },
   });
 </script>

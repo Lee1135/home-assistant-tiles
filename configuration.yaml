@@ -96,7 +96,9 @@ homeassistant:
           - entity: input_boolean.switch1
             label: Style
             style_template: "if (state !== 'on') return 'text-decoration: line-through';"
+
 config:
+
 frontend:
   extra_html_url:
     - /local/custom_ui/state-card-tiles.html
@@ -109,17 +111,20 @@ input_boolean:
   tiles_showcase:
   tiles_domains:
   tiles_templates:
+
 sensor:
   - platform: random
     name: Random
   - platform: random
     name: Random UOM
     unit_of_measurement: m/s
+
 scene:
   - name: Switches on
     entities:
       input_boolean.switch1: on
       input_boolean.switch2: on
+
 script:
   switches_off:
     alias: Switches off
@@ -133,6 +138,7 @@ script:
         entity_id: input_text.button
       data_template:
         value: "{{ value }}"
+
 input_text:
   button:
     name: Button
@@ -164,3 +170,56 @@ group:
       - scene.switches_on
       - sensor.random
       - sensor.random_uom
+
+panel_custom:
+  - name: tiles
+    sidebar_title: Tiles
+    sidebar_icon: mdi:view-dashboard
+    url_path: tiles
+    config:
+      bg_color: "#24292e"
+      entities:
+        - entity: input_boolean.switch1
+          label: Switch 1
+  - name: tiles
+    sidebar_title: Tiles Multi
+    sidebar_icon: mdi:view-dashboard
+    url_path: tiles_multi
+    config:
+      bg_color: "#24292e"  # optional
+      columns: 2           # optional
+      column_width: 1fr    # optional
+      rows: 2              # optional
+      row_height: 1fr      # optional
+      gap: 8px             # optional
+      header_color: "#FFF" # optional
+      header_size: 2.5em   # optional
+      multi:
+        - header: 1        # optional
+          row: 1           # optional
+          row_span: 1      # optional
+          column: 1        # optional
+          column_span: 2   # optional
+          tiles:
+            columns: 1
+            entities:
+              - entity: input_boolean.switch1
+                label: Switch 1
+              - entity: input_boolean.switch2
+                label: Switch 2
+        - header: 2
+          tiles:
+            columns: 1
+            entities:
+              - entity: input_boolean.switch1
+                label: Switch 1
+              - entity: input_boolean.switch2
+                label: Switch 2
+        - header: 3
+          tiles:
+            columns: 2
+            entities:
+              - entity: input_boolean.switch1
+                label: Switch 1
+              - entity: input_boolean.switch2
+                label: Switch 2

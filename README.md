@@ -105,6 +105,8 @@ panel_custom:
         - entity: input_boolean.switch1
           label: Switch 1
 ```
+For more panel features check the example in the [configuration file](https://github.com/c727/home-assistant-tiles/blob/master/configuration.yaml#L174).
+![preview](https://raw.githubusercontent.com/c727/home-assistant-tiles/master/docs/panel_multi.png)
 
 ## Using templates
 `state` state of the entity
