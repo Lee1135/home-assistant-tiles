@@ -44,13 +44,12 @@ gap | (float)(CSS unit) | 4px | gap between columns and rows
 color | (CSS color) | var(--primary-color) | color for none-toggle tiles
 color_on | (CSS color) | var(--google-green-500) | on color for toggle tiles
 color_off | (CSS color) | var(--google-red-500) | off color for toggle tiles
-text_color | (CSS color) | #FFF | text color for none-toggle tiles
-text_color_on | (CSS color) | (text_color) | on text color for toggle tiles
-text_color_off | (CSS color) | (text_color) | off text color for toggle tiles
+text_color | (CSS color) | #FFF | text + icon color for none-toggle tiles
+text_color_on | (CSS color) | (text_color) | on text + icon color for toggle tiles
+text_color_off | (CSS color) | (text_color) | off + icon text color for toggle tiles
 text_size | (float)(CSS unit) | 1em | text size
 text_align | center \| left \| right | center | text align
 text_uppercase | true \| false | true | uppercase text
-text_sec_color | (CSS color) | (text_color) | secondary text color
 text_sec_size | (float)(CSS unit) | 1em | secondary text size
 icon_size | (float)(CSS unit) | 24px | icon size
 
@@ -73,16 +72,15 @@ icon_size | (float)(CSS unit) | (inherit) | icon size
 label | (string) | - | primary label
 label_state | (HA entity_id) | - | label text from entity state
 label_template | (JavaScript) | - | JavaScript, return a string
-text_color | (CSS color) | (inherit)| text color for none-toggle tiles
-text_color_on | (CSS color) | (inherit) | on text color for toggle tiles
-text_color_off | (CSS color) | (inherit) | off text color for toggle tiles
+text_color | (CSS color) | (inherit)| text color + icon for none-toggle tiles
+text_color_on | (CSS color) | (inherit) | on text + icon color for toggle tiles
+text_color_off | (CSS color) | (inherit) | off text + icon color for toggle tiles
 text_size | (float)(CSS unit) | (inherit) | text size
 text_align | center \| left \| right | (inherit) | text align
 text_uppercase | true \| false | (inherit) | uppercase text
 label_sec | (string) | - | secondary label
 label_sec_state | (HA entity_id) | - | label text from entity state
 label_sec_template | (JavaScript) | - | JavaScript, return a string
-text_sec_color | (CSS color) | (inherit) | secondary text color
 text_sec_size | (float)(CSS unit) | (inherit) | secondary text size
 style_template | (JavaScript) | - | JavaScript, return CSS code
 
@@ -143,18 +141,21 @@ Variable | Description | Example
 state | state of the entity | state
 attributes | attribute of the entity | attributes['brightness']
 entities | state of another entity | entities['input_boolean.switch1'].state
- | attribute of another entity | entities['light.floor1'].attributes.brightness
+entities | attribute of another entity | entities['light.floor1'].attributes.brightness
 
 ![templates](https://raw.githubusercontent.com/c727/home-assistant-tiles/master/docs/templates.png)
 
 ## Changelog
+Version: 20180314.1
+```
+-removed text_sec_color
+```
 Version: 20180314
 ```
 -added tiles version to dev info panel (HA 0.66+)
 -added device_tracker to sensors
 -changed minimum tile size to 30px
 -added text_uppercase
--
 ```
 Version: 20180308
 ```

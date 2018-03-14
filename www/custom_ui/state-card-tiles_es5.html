@@ -1,7 +1,7 @@
 <script>
 var CUI_NAME = 'Tiles custom state card';
 var CUI_URL = 'https://github.com/c727/home-assistant-tiles';
-var CUI_VERSION = '20180314_es5';
+var CUI_VERSION = '20180314.1_es5';
 
 if (!window.CUSTOM_UI_LIST) window.CUSTOM_UI_LIST = [];
 window.CUSTOM_UI_LIST.push({
@@ -26,7 +26,6 @@ window.CUSTOM_UI_LIST.push({
         --tiles-text-color-on: var(--tiles-text-color);
         --tiles-text-color-off: var(--tiles-text-color);
         --tiles-text-size: 1em;
-        --tiles-text-sec-color: var(--tiles-text-color);
         --tiles-text-sec-size: 1em;
         --tiles-text-align: center;
         --tiles-text-transform: uppercase;
@@ -65,7 +64,6 @@ window.CUSTOM_UI_LIST.push({
         width: 100%;
       }
       .secondary {
-        color: var(--tiles-text-sec-color);
         font-size: var(--tiles-text-sec-size);
       }
       iron-icon {
@@ -125,7 +123,6 @@ Polymer({
     if ('text_color_off' in config) style['--tiles-text-color-off'] = config.text_color_off;
     if ('text_size' in config) style['--tiles-text-size'] = config.text_size;
     if ('text_uppercase' in config) style['--tiles-text-transform'] = config.text_uppercase ? 'uppercase' : 'none';
-    if ('text_sec_color' in config) style['--tiles-text-sec-color'] = config.text_sec_color;
     if ('text_sec_size' in config) style['--tiles-text-sec-size'] = config.text_sec_size;
     if ('text_align' in config) style['--tiles-text-align'] = config.text_align;
     if ('icon_size' in config) style['--tiles-icon-size'] = config.icon_size;
@@ -190,7 +187,6 @@ Polymer({
     if ('text_color_off' in entity) style += ' --tiles-text-color-off: ' + entity.text_color_off + ';';
     if ('text_size' in entity) style += ' --tiles-text-size: ' + entity.text_size + ';';
     if ('text_uppercase' in entity) style += ' --tiles-text-transform: ' + (entity.text_uppercase ? 'uppercase' : 'none');
-    if ('text_sec_color' in entity) style += ' --tiles-text-sec-color: ' + entity.text_sec_color + ';';
     if ('text_sec_size' in entity) style += ' --tiles-text-sec-size: ' + entity.text_sec_size + ';';
     if ('text_align' in entity) style += ' --tiles-text-align: ' + entity.text_align + ';';
     if ('icon_size' in entity) style += ' --tiles-icon-size: ' + entity.icon_size + ';';
