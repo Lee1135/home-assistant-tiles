@@ -38,8 +38,8 @@ input_boolean:
 Option | Value | Default | Description
 --- | --- | --- | ---
 columns | (integer) | 3 | number of columns
-column_width | (float)(CSS unit) | 1fr | width for each column
-row_height | (float)(CSS unit) | 100px | height for each row
+column_width | (float)(CSS unit) | 1fr | width for each column, >=30px
+row_height | (float)(CSS unit) | 100px | height for each row, >=30px
 gap | (float)(CSS unit) | 4px | gap between columns and rows
 color | (CSS color) | var(--primary-color) | color for none-toggle tiles
 color_on | (CSS color) | var(--google-green-500) | on color for toggle tiles
