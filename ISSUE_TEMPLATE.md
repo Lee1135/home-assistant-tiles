@@ -1,7 +1,8 @@
-# Incomplete issues will be ignored
+## Incomplete issues will be ignored
 - [ ] I have read README.md
 - [ ] I have deleted my browser cache after updating tiles
-
+- [ ] I run Home Assistant 0.66 or later
+- [ ] I don't use dirty hacks like modifying the minimum tile size
 
 **Description of problem:**
 ```
@@ -13,15 +14,22 @@
 <<here>>
 ```
 
-**Tiles version:**
+**Tiles version shown in HA:**
 ```
 <<here>>
 ```
+<!--
+- Get it from Home Assistant -> developer tools -> info -> Custom UIs
+- Only report issues for the latest version of tiles: https://github.com/c727/home-assistant-tiles/blob/master/LATEST_VERSION
+-->
 
 **Affected browser:**
 ```
-<<here>>, ex: Chrome 64 (Desktop)
+<<here>>
 ```
+<!--
+- Example: Chrome 64 (Desktop)
+-->
 
 **Home Assistant version:**
 ```
@@ -44,4 +52,4 @@
 ```
 
 **Screenshot:**
-\<\<here>>
+<<here>>

@@ -1,7 +1,16 @@
-<!--
-https://github.com/c727/home-assistant-tiles
-version: 20180308
--->
+<script>
+var CUI_NAME = 'Tiles custom state card';
+var CUI_URL = 'https://github.com/c727/home-assistant-tiles';
+var CUI_VERSION = '20180314_es5';
+
+if (!window.CUSTOM_UI_LIST) window.CUSTOM_UI_LIST = [];
+window.CUSTOM_UI_LIST.push({
+  name: CUI_NAME,
+  version: CUI_VERSION,
+  url: CUI_URL
+});
+</script>
+
 <dom-module id='state-card-tiles'>
   <template>
     <style>
@@ -20,6 +29,7 @@ version: 20180308
         --tiles-text-sec-color: var(--tiles-text-color);
         --tiles-text-sec-size: 1em;
         --tiles-text-align: center;
+        --tiles-text-transform: uppercase;
         --tiles-icon-size: 24px;
       }
       paper-button-group {
@@ -32,11 +42,12 @@ version: 20180308
       paper-button {          
         box-shadow: none !important;
         margin: 0 !important;
-        min-width: 50px;
-        min-height: 50px;
+        min-width: 30px;
+        min-height: 30px;
         background-color: var(--tiles-color);
         color: var(--tiles-text-color);
         font-size: var(--tiles-text-size);
+        text-transform: var(--tiles-text-transform);
         background-repeat: no-repeat;
         background-position: 50% 50%;
         flex-direction: column;
@@ -62,7 +73,7 @@ version: 20180308
         --iron-icon-width: var(--tiles-icon-size);
       }
     </style>
-    <paper-button-group on-click='stopPropagation' on-tap='stopPropagation'>
+    <paper-button-group on-click='stopPropagation'>
       <template is='dom-repeat' items='[[stateObj.attributes.config.entities]]' as='entity'>
         <paper-button raised class$='[[computeClass(hass, entity)]]' style$='[[computeStyle(entity)]][[computeStyleTemplate(hass, entity)]]' on-click='buttonClicked'>
           <div>
@@ -85,7 +96,7 @@ version: 20180308
 
 <script>
 var DOMAIN_SCRIPT = ['script', 'python_script'];
-var DOMAIN_SENSOR = ['sensor', 'binary_sensor'];
+var DOMAIN_SENSOR = ['sensor', 'binary_sensor', 'device_tracker'];
 var DOMAIN_NO_TOGGLE = DOMAIN_SCRIPT.concat(DOMAIN_SENSOR, 'scene');
 
 Polymer({
@@ -102,21 +113,22 @@ Polymer({
   ready: function () {
     var config = this.stateObj.attributes.config;
     var style = {};
-    if (config.columns) style['--tiles-columns'] = config.columns;
-    if (config.column_width) style['--tiles-column-width'] = config.column_width;
-    if (config.row_height) style['--tiles-row-height'] = config.row_height;
-    if (config.gap) style['--tiles-gap'] = config.gap;
-    if (config.color) style['--tiles-color'] = config.color;
-    if (config.color_on) style['--tiles-color-on'] = config.color_on;
-    if (config.color_off) style['--tiles-color-off'] = config.color_off;
-    if (config.text_color) style['--tiles-text-color'] = config.text_color;
-    if (config.text_color_on) style['--tiles-text-color-on'] = config.text_color_on;
-    if (config.text_color_off) style['--tiles-text-color-off'] = config.text_color_off;
-    if (config.text_size) style['--tiles-text-size'] = config.text_size;
-    if (config.text_sec_color) style['--tiles-text-sec-color'] = config.text_sec_color;
-    if (config.text_sec_size) style['--tiles-text-sec-size'] = config.text_sec_size;
-    if (config.text_align) style['--tiles-text-align'] = config.text_align;
-    if (config.icon_size) style['--tiles-icon-size'] = config.icon_size;
+    if ('columns' in config) style['--tiles-columns'] = config.columns;
+    if ('column_width' in config) style['--tiles-column-width'] = config.column_width;
+    if ('row_height' in config) style['--tiles-row-height'] = config.row_height;
+    if ('gap' in config) style['--tiles-gap'] = config.gap;
+    if ('color' in config) style['--tiles-color'] = config.color;
+    if ('color_on' in config) style['--tiles-color-on'] = config.color_on;
+    if ('color_off' in config) style['--tiles-color-off'] = config.color_off;
+    if ('text_color' in config) style['--tiles-text-color'] = config.text_color;
+    if ('text_color_on' in config) style['--tiles-text-color-on'] = config.text_color_on;
+    if ('text_color_off' in config) style['--tiles-text-color-off'] = config.text_color_off;
+    if ('text_size' in config) style['--tiles-text-size'] = config.text_size;
+    if ('text_uppercase' in config) style['--tiles-text-transform'] = config.text_uppercase ? 'uppercase' : 'none';
+    if ('text_sec_color' in config) style['--tiles-text-sec-color'] = config.text_sec_color;
+    if ('text_sec_size' in config) style['--tiles-text-sec-size'] = config.text_sec_size;
+    if ('text_align' in config) style['--tiles-text-align'] = config.text_align;
+    if ('icon_size' in config) style['--tiles-icon-size'] = config.icon_size;
     this.updateStyles(style);
   },
 
@@ -170,18 +182,19 @@ Polymer({
     var r = entity.row ? entity.row : 'auto';
     var rs = entity.row_span ? entity.row_span : 1;
     var style = '';
-    if (entity.color) style += ' --tiles-color: ' + entity.color + ';';
-    if (entity.color_on) style += ' --tiles-color-on: ' + entity.color_on + ';';
-    if (entity.color_off) style += ' --tiles-color-off: ' + entity.color_off + ';';
-    if (entity.text_color) style += ' --tiles-text-color: ' + entity.text_color + ';';
-    if (entity.text_color_on) style += ' --tiles-text-color-on: ' + entity.text_color_on + ';';
-    if (entity.text_color_off) style += ' --tiles-text-color-off: ' + entity.text_color_off + ';';
-    if (entity.text_size) style += ' --tiles-text-size: ' + entity.text_size + ';';
-    if (entity.text_sec_color) style += ' --tiles-text-sec-color: ' + entity.text_sec_color + ';';
-    if (entity.text_sec_size) style += ' --tiles-text-sec-size: ' + entity.text_sec_size + ';';
-    if (entity.text_align) style += ' --tiles-text-align: ' + entity.text_align + ';';
-    if (entity.icon_size) style += ' --tiles-icon-size: ' + entity.icon_size + ';';
-    if (entity.image) style += ' background-image: url("' + entity.image + '");';
+    if ('color' in entity) style += ' --tiles-color: ' + entity.color + ';';
+    if ('color_on' in entity) style += ' --tiles-color-on: ' + entity.color_on + ';';
+    if ('color_off' in entity) style += ' --tiles-color-off: ' + entity.color_off + ';';
+    if ('text_color' in entity) style += ' --tiles-text-color: ' + entity.text_color + ';';
+    if ('text_color_on' in entity) style += ' --tiles-text-color-on: ' + entity.text_color_on + ';';
+    if ('text_color_off' in entity) style += ' --tiles-text-color-off: ' + entity.text_color_off + ';';
+    if ('text_size' in entity) style += ' --tiles-text-size: ' + entity.text_size + ';';
+    if ('text_uppercase' in entity) style += ' --tiles-text-transform: ' + (entity.text_uppercase ? 'uppercase' : 'none');
+    if ('text_sec_color' in entity) style += ' --tiles-text-sec-color: ' + entity.text_sec_color + ';';
+    if ('text_sec_size' in entity) style += ' --tiles-text-sec-size: ' + entity.text_sec_size + ';';
+    if ('text_align' in entity) style += ' --tiles-text-align: ' + entity.text_align + ';';
+    if ('icon_size' in entity) style += ' --tiles-icon-size: ' + entity.icon_size + ';';
+    if ('image' in entity) style += ' background-image: url("' + entity.image + '");';
     return 'grid-column: ' + c + ' / span ' + cs + '; grid-row: ' + r + ' / span ' + rs + ';' + style;
   },
 

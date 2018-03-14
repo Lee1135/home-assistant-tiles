@@ -3,7 +3,8 @@
 ![preview](https://raw.githubusercontent.com/c727/home-assistant-tiles/master/docs/preview.png)
 
 ## Requirements
-[Modern web browser](https://caniuse.com/#feat=css-grid)
+- [Home Assistant 0.66+](https://home-assistant.io/)
+- [Modern web browser](https://caniuse.com/#feat=css-grid)
 
 ## Installation
 * Download `/www/custom_ui/state-card-tiles.html` and `/www/custom_ui/state-card-tiles_es5.html` to `<config-dir>/www/custom_ui/`
@@ -17,60 +18,75 @@ frontend:
 ```
 
 ## Configuration
-All customization keys are optional.
 ```yaml
 homeassistant:
   customize:
-    input_text.dummy_tiles:
+    input_boolean.dummy_tiles:
       custom_ui_state_card: state-card-tiles
       config:
-        columns: 3
-        column_width: 75px
-        row_height: 75px
-        gap: 4px
-        color: blue
-        color_on: green
-        color_off: red
-        text_color: "#FFF"
-        text_color_on: "#FFF"
-        text_color_off: "#FFF"
-        text_size: 1em
-        text_sec_color: "#FFF"
-        text_sec_size: 1em
-        text_align: center | left | right
-        icon_size: 24px
+        {{ grid config }}
         entities:
-          - entity: input_boolean.switch1 # required
-            data: {value: right} # service data for scripts
-            more_info: histroy_grah.temperature # fire more-info instead of service, default for sensors
-            icon: mdi:power
-            icon_template: "if (state === 'on') return 'mdi:volume-high'; else return 'mdi:volume-low'" # JavaScript
-            label: S1
-            label_state: input_boolean.switch2   
-            label_template: "if (state < 10) return '<10'; else return '>=10';" # JavaScript
-            label_sec: (Switch 1)
-            label_sec_state: input_boolean.switch2
-            label_sec_template: "if (state < 10) return '<10'; else return '>=10';" # JavaScript
-            column: 2
-            column_span: 2
-            row: 2
-            row_span: 2
-            image: /local/test.png
-            style_template: "if (state === 'on') return 'background-image: url(\"/local/on.png\");'; else return 'background-image: url(\"/local/off.png\");'" # JavaScript, return CSS here
-            color: blue
-            color_on: green
-            color_off: red
-            text_color: "#FFF"
-            text_color_on: "#FFF"
-            text_color_off: "#FFF"
-            text_size: 1em
-            text_sec_color: "#FFF"
-            text_sec_size: 1em
-            text_align: center
-            icon_size: 24px
+          - entity: input_boolean.switch1
+            {{ entity config }}
+
+input_boolean:
+  dummy_tiles:
+  switch1:
  ```
- 
-Also check the sample configuration.
+
+### Grid config
+Option | Value | Default | Description
+--- | --- | --- | ---
+columns | (integer) | 3 | number of columns
+column_width | (float)(CSS unit) | 1fr | width for each column
+row_height | (float)(CSS unit) | 100px | height for each row
+gap | (float)(CSS unit) | 4px | gap between columns and rows
+color | (CSS color) | var(--primary-color) | color for none-toggle tiles
+color_on | (CSS color) | var(--google-green-500) | on color for toggle tiles
+color_off | (CSS color) | var(--google-red-500) | off color for toggle tiles
+text_color | (CSS color) | #FFF | text color for none-toggle tiles
+text_color_on | (CSS color) | (text_color) | on text color for toggle tiles
+text_color_off | (CSS color) | (text_color) | off text color for toggle tiles
+text_size | (float)(CSS unit) | 1em | text size
+text_align | center \| left \| right | center | text align
+text_uppercase | true \| false | true | uppercase text
+text_sec_color | (CSS color) | (text_color) | secondary text color
+text_sec_size | (float)(CSS unit) | 1em | secondary text size
+icon_size | (float)(CSS unit) | 24px | icon size
+
+### Entity config
+Option | Value | Default | Description
+--- | --- | --- | ---
+entity | (HA entity_id) | **REQUIRED** | Home Assistant enity_id
+cloumn | (integer) | auto | column position
+cloumn_span | (integer) | 1 | column span
+row | (integer) | auto | row position
+row_span | (integer) | 1 | row span
+more_info | (HA entity_id) | - | default behaviour for non-toggles, show more-info-card instead of toggle action
+data | (JSON data) | {} | service data for scripts
+color | (CSS color) | (inherit) | color for none-toggle tiles
+color_on | (CSS color) | (inherit) | on color for toggle tiles
+color_off | (CSS color) | (inherit) | off color for toggle tiles
+icon | (set):(icon) | - | icon
+icon_template | (JavaScript) | - | JavaScript, return set:icon
+icon_size | (float)(CSS unit) | (inherit) | icon size
+label | (string) | - | primary label
+label_state | (HA entity_id) | - | label text from entity state
+label_template | (JavaScript) | - | JavaScript, return a string
+text_color | (CSS color) | (inherit)| text color for none-toggle tiles
+text_color_on | (CSS color) | (inherit) | on text color for toggle tiles
+text_color_off | (CSS color) | (inherit) | off text color for toggle tiles
+text_size | (float)(CSS unit) | (inherit) | text size
+text_align | center \| left \| right | (inherit) | text align
+text_uppercase | true \| false | (inherit) | uppercase text
+label_sec | (string) | - | secondary label
+label_sec_state | (HA entity_id) | - | label text from entity state
+label_sec_template | (JavaScript) | - | JavaScript, return a string
+text_sec_color | (CSS color) | (inherit) | secondary text color
+text_sec_size | (float)(CSS unit) | (inherit) | secondary text size
+style_template | (JavaScript) | - | JavaScript, return CSS code
+
+Also check the example configuration.
 
 ## Update info
 ```yaml
@@ -105,19 +121,41 @@ panel_custom:
         - entity: input_boolean.switch1
           label: Switch 1
 ```
-For more panel features check the example in the [configuration file](https://github.com/c727/home-assistant-tiles/blob/master/configuration.yaml#L174).
-![preview](https://raw.githubusercontent.com/c727/home-assistant-tiles/master/docs/panel_multi.png)
+For more panel features check the example in the [configuration file](https://github.com/c727/home-assistant-tiles/blob/master/configuration.yaml#L172).
 
-## Using templates
-`state` state of the entity
+![panel_multi](https://raw.githubusercontent.com/c727/home-assistant-tiles/master/docs/panel_multi.png)
 
-`attributes['brightness']` attribute of the entity
+## Templates
+JavaScript functions to compute custom values. Examples:
+```yaml
+# label based on state
+label_template: "if (state < 10) return '<10'; else return '>=10';"
 
-`entities['input_boolean.switch1'].state` state of another entity
+# icon based on state
+icon_template: "if (state === 'on') return 'mdi:power-plug'; else return 'mdi:power-plug-off'"
 
-`entities['light.floor1'].attributes.brightness` attribute of another entity
+# background image based on sate
+style_template: "return 'background-image: url(\"/local/' + state + '.png\");'"
+```
+
+Variable | Description | Example
+--- | --- | ---
+state | state of the entity | state
+attributes | attribute of the entity | attributes['brightness']
+entities | state of another entity | entities['input_boolean.switch1'].state
+ | attribute of another entity | entities['light.floor1'].attributes.brightness
+
+![templates](https://raw.githubusercontent.com/c727/home-assistant-tiles/master/docs/templates.png)
 
 ## Changelog
+Version: 20180314
+```
+-added tiles version to dev info panel (HA 0.66+)
+-added device_tracker to sensors
+-changed minimum tile size to 30px
+-added text_uppercase
+-
+```
 Version: 20180308
 ```
 -fix dialog for old HA releases

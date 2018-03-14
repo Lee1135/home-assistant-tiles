@@ -25,7 +25,6 @@ homeassistant:
             data: {value: top}
           - entity: script.press_button
             icon: mdi:arrow-left-thick
-            text_align: left
             column: 1
             row: 5
             data: {value: left}
@@ -36,7 +35,6 @@ homeassistant:
             data: {value: ok}
           - entity: script.press_button
             icon: mdi:arrow-right-thick
-            text_align: right
             column: 3
             row: 5
             data: {value: right}
