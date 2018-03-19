@@ -37,7 +37,7 @@ input_boolean:
 ### Grid config
 Option | Value | Default | Description
 --- | --- | --- | ---
-columns | (integer) | 3 | number of columns
+columns | (integer) \| auto-fit | 3 | number of columns
 column_width | (float)(CSS unit) | 1fr | width for each column, >=30px
 row_height | (float)(CSS unit) | 100px | height for each row, >=30px
 gap | (float)(CSS unit) | 4px | gap between columns and rows
@@ -50,6 +50,9 @@ text_color_off | (CSS color) | (text_color) | off + icon text color for toggle t
 text_size | (float)(CSS unit) | 1em | text size
 text_align | center \| left \| right | center | text align
 text_uppercase | true \| false | true | uppercase text
+text_sec_color | (CSS color) | (text_color) | secondary text color for none-toggle tiles
+text_sec_color_on | (CSS color) | (text_color_on) | on secondary text color for toggle tiles
+text_sec_color_off | (CSS color) | (text_color_off) | off secondary text color for toggle tiles
 text_sec_size | (float)(CSS unit) | 1em | secondary text size
 icon_size | (float)(CSS unit) | 24px | icon size
 
@@ -81,6 +84,9 @@ text_uppercase | true \| false | (inherit) | uppercase text
 label_sec | (string) | - | secondary label
 label_sec_state | (HA entity_id) | - | label text from entity state
 label_sec_template | (JavaScript) | - | JavaScript, return a string
+text_sec_color | (CSS color) | (inherit) | secondary text color for none-toggle tiles
+text_sec_color_on | (CSS color) | (inherit) | on secondary text color for toggle tiles
+text_sec_color_off | (CSS color) | (inherit) | off secondary text color for toggle tiles
 text_sec_size | (float)(CSS unit) | (inherit) | secondary text size
 style_template | (JavaScript) | - | JavaScript, return CSS code
 
@@ -100,9 +106,10 @@ automation:
       entity_id: sensor.sc_tiles_latest_version
     action:
       service: persistent_notification.create
-      data:
+      data_template:
         title: Update available
-        message: A new version for [Tiles custom state card](https://github.com/c727/home-assistant-tiles#changelog) is available.
+        message: "A new version for [Tiles custom state card](https://github.com/c727/home-assistant-tiles#changelog) is available: {{ states('sensor.sc_tiles_latest_version') }}"
+        notification_id: tiles_update_info
 ```
 
 ## Run as panel
@@ -146,6 +153,11 @@ entities | attribute of another entity | entities['light.floor1'].attributes.bri
 ![templates](https://raw.githubusercontent.com/c727/home-assistant-tiles/master/docs/templates.png)
 
 ## Changelog
+Version: 20180319
+```
+-added text_sec_color, text_sec_color_on, text_sec_color_off
+-fix for version code
+```
 Version: 20180314.1
 ```
 -removed text_sec_color
