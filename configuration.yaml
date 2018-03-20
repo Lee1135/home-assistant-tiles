@@ -22,27 +22,32 @@ homeassistant:
             icon: mdi:arrow-up-thick
             column: 2
             row: 4
-            data: {value: top}
+            data:
+              value: top
           - entity: script.press_button
             icon: mdi:arrow-left-thick
             column: 1
             row: 5
-            data: {value: left}
+            data:
+              value: left
           - entity: script.press_button
             image: /local/ok.png
             column: 2
             row: 5
-            data: {value: ok}
+            data:
+              value: ok
           - entity: script.press_button
             icon: mdi:arrow-right-thick
             column: 3
             row: 5
-            data: {value: right}
+            data:
+              value: right
           - entity: script.press_button
             icon: mdi:arrow-down-thick
             column: 2
             row: 6
-            data: {value: value}
+            data:
+              value: value
     input_boolean.tiles_domains:
       custom_ui_state_card: state-card-tiles
       config:

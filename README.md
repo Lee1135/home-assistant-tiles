@@ -65,7 +65,8 @@ cloumn_span | (integer) | 1 | column span
 row | (integer) | auto | row position
 row_span | (integer) | 1 | row span
 more_info | (HA entity_id) | - | default behaviour for non-toggles, show more-info-card instead of toggle action
-data | (JSON data) | {} | service data for scripts
+service | (domain).(service) | default | 
+data | (JSON data) | { entity_id: entity_id } | service data
 color | (CSS color) | (inherit) | color for none-toggle tiles
 color_on | (CSS color) | (inherit) | on color for toggle tiles
 color_off | (CSS color) | (inherit) | off color for toggle tiles
@@ -153,6 +154,12 @@ entities | attribute of another entity | entities['light.floor1'].attributes.bri
 ![templates](https://raw.githubusercontent.com/c727/home-assistant-tiles/master/docs/templates.png)
 
 ## Changelog
+Version: 20180320
+```
+-fixed text colors
+-added service to entity config to run any other service like 'remote.send_command' (in combination with data:)
+-code improvements
+```
 Version: 20180319
 ```
 -added text_sec_color, text_sec_color_on, text_sec_color_off
