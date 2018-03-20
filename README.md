@@ -66,7 +66,7 @@ row | (integer) | auto | row position
 row_span | (integer) | 1 | row span
 more_info | (HA entity_id) | - | default behaviour for non-toggles, show more-info-card instead of toggle action
 service | (domain).(service) | default | use a custom service for the action
-data | (JSON) | (YAML) | { entity_id: entity_id } | service data
+data | (JSON) \| (YAML) | { entity_id: entity_id } | service data
 color | (CSS color) | (inherit) | color for none-toggle tiles
 color_on | (CSS color) | (inherit) | on color for toggle tiles
 color_off | (CSS color) | (inherit) | off color for toggle tiles
