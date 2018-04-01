@@ -1,8 +1,12 @@
-## Incomplete issues will be ignored
-- [ ] I have read README.md
-- [ ] I have deleted my browser cache after updating tiles
-- [ ] I run Home Assistant 0.66 or later
-- [ ] I don't use dirty hacks like modifying the minimum tile size
+<!--
+Incomplete issues will be ignored
+
+Before you create an issue:
+- Read the REAMDME.md file
+- Delete your browser cache for cache issues after updating tiles
+- Make sure your issue is caused by tiles
+- Don't use hacks in tiles like modifying minimum size for buttons
+-->
 
 **Description of problem:**
 ```
@@ -14,7 +18,7 @@
 <<here>>
 ```
 
-**Tiles version shown in HA:**
+**Tiles version shown in Home Assistant developer info:**
 ```
 <<here>>
 ```
@@ -28,13 +32,16 @@
 <<here>>
 ```
 <!--
-- Example: Chrome 64 (Desktop)
+- Example: Chrome 64 on Windows
 -->
 
 **Home Assistant version:**
 ```
 <<here>>
 ```
+<!--
+Home Assistant 0.66+ is ony supported!
+-->
 
 **Home Assistant `frontend:` config:**
 ```yaml

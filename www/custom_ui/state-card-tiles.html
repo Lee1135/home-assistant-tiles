@@ -1,27 +1,22 @@
 <script>
-{
-  const _NAME = 'Tiles custom state card';
-  const _URL = 'https://github.com/c727/home-assistant-tiles';
-  const _VERSION = '20180320';
-
-  if (!window.CUSTOM_UI_LIST) window.CUSTOM_UI_LIST = [];
+  if (!window.CUSTOM_UI_LIST) {
+    window.CUSTOM_UI_LIST = [];
+  }
   window.CUSTOM_UI_LIST.push({
-    name: _NAME,
-    url: _URL,
-    version: _VERSION
+    name: 'Tiles custom state card',
+    url: 'https://github.com/c727/home-assistant-tiles',
+    version: '20180401',
   });
-}
 </script>
 
 <dom-module id='state-card-tiles'>
   <template>
     <style>
-      paper-button-group {
+      .grid {
         display: grid;
         grid-template-columns: repeat(var(--tiles-columns, 3), var(--tiles-column-width, 1fr));
         grid-auto-rows: var(--tiles-row-height, 100px);
         grid-gap: var(--tiles-gap, 4px);
-        width: 100%;
       }
       paper-button {          
         box-shadow: none !important;
@@ -63,7 +58,7 @@
         --iron-icon-width: var(--tiles-icon-size, 24px);
       }
     </style>
-    <paper-button-group on-click='stopPropagation'>
+    <div class='grid' on-click='stopPropagation'>
       <template is='dom-repeat' items='[[config.entities]]' as='entity'>
         <paper-button raised class$='[[computeClass(hass, entity.entity)]]' style$='[[computeStyle(entity)]][[computeStyleTemplate(hass, entity)]]' on-click='buttonClicked'>
           <div>
@@ -80,7 +75,7 @@
           </template>
         </paper-button>
       </template>
-    </paper-button-group>
+    </div>
   </template>
 </dom-module>
 
@@ -88,7 +83,9 @@
 {
   const DOMAIN_SCRIPT = ['script', 'python_script'];
   const DOMAIN_SENSOR = ['sensor', 'binary_sensor', 'device_tracker'];
-  const DOMAIN_NO_TOGGLE = DOMAIN_SCRIPT.concat(DOMAIN_SENSOR, 'scene');
+  const DOMAIN_NO_ONOFF = DOMAIN_SCRIPT.concat('sensor', 'scene');
+
+  const ON_STATES = ['on', 'open', 'locked', 'home'];
 
   class StateCardTiles extends window.hassMixins.EventsMixin(Polymer.Element) {
     static get is() { return 'state-card-tiles'; }
@@ -115,24 +112,24 @@
       super.ready();
       const config = this.config;
       const style = {};
-      if ('columns' in config) style['--tiles-columns'] = config.columns;
-      if ('column_width' in config) style['--tiles-column-width'] = config.column_width;
-      if ('row_height' in config) style['--tiles-row-height'] = config.row_height;
-      if ('gap' in config) style['--tiles-gap'] = config.gap;
-      if ('color' in config) style['--tiles-color'] = config.color;
-      if ('color_on' in config) style['--tiles-color-on'] = config.color_on;
-      if ('color_off' in config) style['--tiles-color-off'] = config.color_off;
-      if ('text_color' in config) style['--tiles-text-color'] = config.text_color;
-      if ('text_color_on' in config) style['--tiles-text-color-on'] = config.text_color_on;
-      if ('text_color_off' in config) style['--tiles-text-color-off'] = config.text_color_off;
-      if ('text_size' in config) style['--tiles-text-size'] = config.text_size;
-      if ('text_uppercase' in config) style['--tiles-text-transform'] = config.text_uppercase ? 'uppercase' : 'none';
-      if ('text_sec_color' in config) style['--tiles-text-sec-color'] = config.text_sec_color;
-      if ('text_sec_color_on' in config) style['--tiles-text-sec-color-on'] = config.text_sec_color_on;
-      if ('text_sec_color_off' in config) style['--tiles-text-sec-color-off'] = config.text_sec_color_off;
-      if ('text_sec_size' in config) style['--tiles-text-sec-size'] = config.text_sec_size;
-      if ('text_align' in config) style['--tiles-text-align'] = config.text_align;
-      if ('icon_size' in config) style['--tiles-icon-size'] = config.icon_size;
+      if (config.columns != null) style['--tiles-columns'] = config.columns;
+      if (config.column_width != null) style['--tiles-column-width'] = config.column_width;
+      if (config.row_height != null) style['--tiles-row-height'] = config.row_height;
+      if (config.gap != null) style['--tiles-'] = config.gap;
+      if (config.color != null) style['--tiles-color'] = config.color;
+      if (config.color_on != null) style['--tiles-color-on'] = config.color_on;
+      if (config.color_off != null) style['--tiles-color-off'] = config.color_off;
+      if (config.text_color != null) style['--tiles-text-color'] = config.text_color;
+      if (config.text_color_on != null) style['--tiles-text-color-on'] = config.text_color_on;
+      if (config.text_color_off != null) style['--tiles-text-color-off'] = config.text_color_off;
+      if (config.text_size != null) style['--tiles-text-size'] = config.text_size;
+      if (config.text_uppercase != null) style['--tiles-text-transform'] = config.text_uppercase ? 'uppercase' : 'none';
+      if (config.text_sec_color != null) style['--tiles-text-sec-color'] = config.text_sec_color;
+      if (config.text_sec_color_on != null) style['--tiles-text-sec-color-on'] = config.text_sec_color_on;
+      if (config.text_sec_color_off != null) style['--tiles-text-sec-color-off'] = config.text_sec_color_off;
+      if (config.text_sec_size != null) style['--tiles-text-sec-size'] = config.text_sec_size;
+      if (config.text_align != null) style['--tiles-text-align'] = config.text_align;
+      if (config.icon_size != null) style['--tiles-icon-size'] = config.icon_size;
       this.updateStyles(style);
     }
 
@@ -170,10 +167,10 @@
     }
 
     computeClass(hass, entity) {
-      if (!entity || DOMAIN_NO_TOGGLE.includes(entity.split('.')[0])) {
+      if (!entity || DOMAIN_NO_ONOFF.includes(entity.split('.')[0])) {
         return '';
       } else {
-        return hass.states[entity] && window.hassUtil.OFF_STATES.includes(hass.states[entity].state) ? 'off' : 'on';
+        return hass.states[entity] && ON_STATES.includes(hass.states[entity].state) ? 'on' : 'off';
       }
     }
 
@@ -183,21 +180,21 @@
       const r = entity.row ? entity.row : 'auto';
       const rs = entity.row_span ? entity.row_span : 1;
       let style = '';
-      if ('color' in entity) style += ` --tiles-color: ${entity.color};`;
-      if ('color_on' in entity) style += ` --tiles-color-on: ${entity.color_on};`;
-      if ('color_off' in entity) style += ` --tiles-color-off: ${entity.color_off};`;
-      if ('text_color' in entity) style += ` --tiles-text-color: ${entity.text_color};`;
-      if ('text_color_on' in entity) style += ` --tiles-text-color-on: ${entity.text_color_on};`;
-      if ('text_color_off' in entity) style += ` --tiles-text-color-off: ${entity.text_color_off};`;
-      if ('text_size' in entity) style += ` --tiles-text-size: ${entity.text_size};`;
-      if ('text_uppercase' in entity) style += ' --tiles-text-transform: ' + (entity.text_uppercase ? 'uppercase' : 'none');
-      if ('text_sec_color' in entity) style += ` --tiles-text-sec-color: ${entity.text_sec_color};`;
-      if ('text_sec_color_on' in entity) style += ` --tiles-text-sec-color-on: ${entity.text_sec_color_on};`;
-      if ('text_sec_color_off' in entity) style += ` --tiles-text-sec-color-off: ${entity.text_sec_color_off};`;
-      if ('text_sec_size' in entity) style += ` --tiles-text-sec-size: ${entity.text_sec_size};`;
-      if ('text_align' in entity) style += ` --tiles-text-align: ${entity.text_align};`;
-      if ('icon_size' in entity) style += ` --tiles-icon-size: ${entity.icon_size};`;
-      if ('image' in entity) style += ` background-image: url("${entity.image}");`;
+      if (entity.color != null) style += ` --tiles-color: ${entity.color};`;
+      if (entity.color_on != null) style += ` --tiles-color-on: ${entity.color_on};`;
+      if (entity.color_off != null) style += ` --tiles-color-off: ${entity.color_off};`;
+      if (entity.text_color != null) style += ` --tiles-text-color: ${entity.text_color};`;
+      if (entity.text_color_on != null) style += ` --tiles-text-color-on: ${entity.text_color_on};`;
+      if (entity.text_color_off != null) style += ` --tiles-text-color-off: ${entity.text_color_off};`;
+      if (entity.text_size != null) style += ` --tiles-text-size: ${entity.text_size};`;
+      if (entity.text_uppercase != null) style += ' --tiles-text-transform: ' + (entity.text_uppercase ? 'uppercase' : 'none');
+      if (entity.text_sec_color != null) style += ` --tiles-text-sec-color: ${entity.text_sec_color};`;
+      if (entity.text_sec_color_on != null) style += ` --tiles-text-sec-color-on: ${entity.text_sec_color_on};`;
+      if (entity.text_sec_color_off != null) style += ` --tiles-text-sec-color-off: ${entity.text_sec_color_off};`;
+      if (entity.text_sec_size != null) style += ` --tiles-text-sec-size: ${entity.text_sec_size};`;
+      if (entity.text_align != null) style += ` --tiles-text-align: ${entity.text_align};`;
+      if (entity.icon_size != null) style += ` --tiles-icon-size: ${entity.icon_size};`;
+      if (entity.image != null) style += ` background-image: url("${entity.image}");`;
       return `grid-column: ${c} / span ${cs}; grid-row: ${r} / span ${rs}; ${style}`;
     }
 
@@ -222,15 +219,15 @@
           serviceDomain = stateDomain;
           service = entity_id.split('.')[1];
         } else {
-          const isOff = window.hassUtil.OFF_STATES.includes(this.hass.states[entity_id].state);
+          const isOn = ON_STATES.includes(this.hass.states[entity_id].state);
           switch (stateDomain) {
             case 'lock':
               serviceDomain = 'lock';
-              service = isOff ? 'lock' : 'unlock';
+              service = isOn ? 'unlock' : 'lock';
               break;
             case 'cover':
               serviceDomain = 'cover';
-              service = isOff ? 'open' : 'close';
+              service = isOn ? 'close' : 'open';
               break;
             case 'scene':
               serviceDomain = 'scene';
@@ -238,7 +235,7 @@
               break;        
             default:
               serviceDomain = 'homeassistant';
-              service = isOff ? 'turn_on' : 'turn_off';
+              service = isOn ? 'turn_off' : 'turn_on';
           }
         }
         this.hass.callService(serviceDomain, service, data);

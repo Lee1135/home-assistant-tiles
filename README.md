@@ -154,6 +154,11 @@ entities | attribute of another entity | entities['light.floor1'].attributes.bri
 ![templates](https://raw.githubusercontent.com/c727/home-assistant-tiles/master/docs/templates.png)
 
 ## Changelog
+Version: 20180401
+```
+-show on/off colors for device_tracker and binary_sensor
+-bug fixes
+```
 Version: 20180320
 ```
 -fixed text colors
