@@ -155,6 +155,10 @@ entities | attribute of another entity | entities['light.floor1'].attributes.bri
 ![templates](https://raw.githubusercontent.com/c727/home-assistant-tiles/master/docs/templates.png)
 
 ## Changelog
+Version: 20180420.1
+```
+-add weblink support
+```
 Version: 20180420
 ```
 -fix text_uppercase in entity config
