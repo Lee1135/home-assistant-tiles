@@ -5,7 +5,7 @@
   window.CUSTOM_UI_LIST.push({
     name: 'Tiles custom state card',
     url: 'https://github.com/c727/home-assistant-tiles',
-    version: '20180414_es5',
+    version: '20180420_es5',
   });
 </script>
 
@@ -18,7 +18,7 @@
         grid-auto-rows: var(--tiles-row-height, 100px);
         grid-gap: var(--tiles-gap, 4px);
       }
-      paper-button {          
+      paper-button {
         box-shadow: none !important;
         margin: 0 !important;
         min-width: 30px;
@@ -123,7 +123,7 @@ Polymer({
     if (config.text_color_on != null) style['--tiles-text-color-on'] = config.text_color_on;
     if (config.text_color_off != null) style['--tiles-text-color-off'] = config.text_color_off;
     if (config.text_size != null) style['--tiles-text-size'] = config.text_size;
-    if (config.text_uppercase != null) style['--tiles-text-transform'] = config.text_uppercase ? 'uppercase' : 'none';
+    if (config.text_uppercase != null) style['--tiles-text-transform'] = config.text_uppercase ? 'uppercase;' : 'none;';
     if (config.text_sec_color != null) style['--tiles-text-sec-color'] = config.text_sec_color;
     if (config.text_sec_color_on != null) style['--tiles-text-sec-color-on'] = config.text_sec_color_on;
     if (config.text_sec_color_off != null) style['--tiles-text-sec-color-off'] = config.text_sec_color_off;
@@ -232,7 +232,7 @@ Polymer({
           case 'scene':
             serviceDomain = 'scene';
             service = 'turn_on';
-            break;        
+            break;
           default:
             serviceDomain = 'homeassistant';
             service = isOn ? 'turn_off' : 'turn_on';
