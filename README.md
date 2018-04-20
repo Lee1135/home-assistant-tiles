@@ -142,7 +142,7 @@ icon_template: "if (state === 'on') return 'mdi:power-plug'; else return 'mdi:po
 
 # background image based on sate
 style_template: "return 'background-image: url(\"/local/' + state + '.png\");'"
-// you can also use CSS variables form Tiles here, like "return '--tiles-text-sec-color-on: green;';"
+// you can also use CSS variables from Tiles here, like "return '--tiles-text-sec-color-on: green;';"
 ```
 
 Variable | Description | Example
@@ -155,6 +155,10 @@ entities | attribute of another entity | entities['light.floor1'].attributes.bri
 ![templates](https://raw.githubusercontent.com/c727/home-assistant-tiles/master/docs/templates.png)
 
 ## Changelog
+Version: 20180420.2
+```
+-fix text_uppercase for es5
+```
 Version: 20180420.1
 ```
 -add weblink support
