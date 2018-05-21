@@ -27,7 +27,7 @@ version: 20180309
         grid-template-columns: repeat(var(--panel-multi-columns), var(--panel-multi-column-width));
         grid-template-rows: repeat(var(--panel-multi-rows), var(--panel-multi-row-height));
         grid-gap: var(--panel-multi-gap);
-        
+
       }
       .title {
         color: var(--panel-multi-header-color);
@@ -39,7 +39,7 @@ version: 20180309
       }
     </style>
     <div class='title'>
-      <ha-menu-button narrow='[[narrow]]' show-menu='[[showMenu]]'></ha-menu-button>    
+      <ha-menu-button narrow='[[narrow]]' show-menu='[[showMenu]]'></ha-menu-button>
       <template is='dom-if' if='[[panel.config.title]]'>
         [[panel.config.title]]
       </template>
@@ -47,7 +47,7 @@ version: 20180309
     <div class='grid'>
       <template is='dom-if' if='[[!panel.config.multi]]'>
         <state-card-tiles
-          hass='[[hass]]'  
+          hass='[[hass]]'
           state-obj='[[computeDataTiles(panel.config)]]'
         ></state-card-tiles>
       </template>
@@ -67,7 +67,7 @@ version: 20180309
     </div>
   </template>
 </dom-module>
-  
+
 <script>
   Polymer({
     is: 'ha-panel-tiles',
@@ -100,7 +100,7 @@ version: 20180309
       if (config.header_color) style['--panel-multi-header-color'] = config.header_color;
       if (config.header_size) style['--panel-multi-header-size'] = config.header_size;
       this.updateStyles(style);
-    },    
+    },
 
     computeStyle: function (entity) {
       var c = entity.column ? entity.column : 'auto';

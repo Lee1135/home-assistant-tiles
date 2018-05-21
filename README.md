@@ -109,7 +109,7 @@ automation:
       service: persistent_notification.create
       data_template:
         title: Update available
-        message: "A new version for [Tiles custom state card](https://github.com/c727/home-assistant-tiles#changelog) is available: {{ states('sensor.sc_tiles_latest_version') }}"
+        message: "A new version of [Tiles custom state card](https://github.com/c727/home-assistant-tiles#changelog) is available: {{ states('sensor.sc_tiles_latest_version') }}"
         notification_id: tiles_update_info
 ```
 
@@ -155,6 +155,10 @@ entities | attribute of another entity | entities['light.floor1'].attributes.bri
 ![templates](https://raw.githubusercontent.com/c727/home-assistant-tiles/master/docs/templates.png)
 
 ## Changelog
+Version: 20180521
+```
+-fix fir HA 0.70+
+```
 Version: 20180420.2
 ```
 -fix text_uppercase for es5
